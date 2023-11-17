@@ -126,9 +126,14 @@ export default function Jobs() {
   ]
 
   const handleOk = async () => {
-    await deleteJob(currentJobIdToBeDeleted!)
-    setIsModalVisible(false)
-    setCurrentJobIdToDelete(null)
+    try {
+      await deleteJob(currentJobIdToBeDeleted!)
+      setIsModalVisible(false)
+      setCurrentJobIdToDelete(null)
+    } catch (error: any) {
+      console.log(`${error.name}: ${error.message}`)
+      message.error(error.message)
+    }
   }
 
   const handleCancel = () => {

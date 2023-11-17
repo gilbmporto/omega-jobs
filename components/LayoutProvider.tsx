@@ -106,7 +106,9 @@ export default function LayoutProvider({
   const onLogout = async () => {
     try {
       dispatch(setIsLoading(true))
-      const res = await axios.post("api/users/logout")
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_REACT_APP_API_URL}/api/users/logout`
+      )
       message.success(res.data.message)
       router.push("/login")
     } catch (error: any) {
@@ -134,8 +136,6 @@ export default function LayoutProvider({
 
               // Alias Token
               colorBgContainer: "#f6ffed",
-              colorBorderBg: "#1f1a1a",
-              colorBorder: "#1f1a1a",
             },
           }}
         >

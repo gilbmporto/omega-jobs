@@ -183,6 +183,10 @@
   width: 450px;
 }
 
+.min-w-400 {
+  min-width: 400px;
+}
+
 .h-screen {
   height: 100vh;
 }

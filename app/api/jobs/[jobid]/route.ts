@@ -13,7 +13,7 @@ export async function GET(
   try {
     await validateJWT(req)
 
-    const job = await Job.findById(params.jobid)
+    const job = await Job.findById(params.jobid).populate("user")
     if (!job) {
       return NextResponse.json({ message: "Job not found" }, { status: 404 })
     }

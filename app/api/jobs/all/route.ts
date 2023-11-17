@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
   try {
     await validateJWT(req)
 
-    const jobs = await Job.find()
+    const jobs = await Job.find().populate("user")
     if (!jobs) {
       return NextResponse.json({ message: "Jobs not found" }, { status: 404 })
     }
