@@ -1,38 +1,76 @@
+"use client"
+import PageTitle from "@/components/PageTitle"
+import formatJobTypeString from "@/helpers/formatString"
+import { setIsLoading } from "@/redux/loadingsSlice"
+import { Card, Col, Row, message } from "antd"
 import axios from "axios"
-import { cookies } from "next/headers"
+import moment from "moment"
+import React, { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 
-// Getting data using server side components
-export async function getUser() {
-  try {
-    const token: any = cookies().get("token")
+export default function Home() {
+  const dispatch = useDispatch()
+  const { currentUser } = useSelector((state: any) => state.users)
+  const [jobs, setJobs] = useState([])
 
-    const res = await axios.get("http://localhost:3000/api/users/me", {
-      headers: {
-        Cookie: `token=${token.value}`,
-      },
-    })
+  const fetchJobs = async () => {
+    try {
+      dispatch(setIsLoading(true))
 
-    if (res.status === 200) {
-      return res.data.data
-    } else {
-      // Handle error status codes
-      console.error(`API Error: ${res.status} - ${res.data.message}`)
-      return null // Return null instead of false
-    }
-  } catch (err: any) {
-    if (err.response && err.response.status === 403) {
-      return null // Return null instead of false
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_REACT_APP_API_URL}/api/jobs/all`
+      )
+      setJobs(res.data.data)
+    } catch (error: any) {
+      message.error(error.message)
+    } finally {
+      dispatch(setIsLoading(false))
     }
   }
-}
 
-export default async function Home() {
-  const user: any = await getUser()
+  useEffect(() => {
+    fetchJobs()
+  }, [])
+
+  console.log(jobs)
 
   return (
-    <div>
-      <h1>Home</h1>
-      <h2>Current User: {user?.name ? user.name : "Loading..."}</h2>
-    </div>
+    <>
+      <PageTitle title="Home" />
+      <h2>Opportunities</h2>
+      <br />
+      <Row gutter={[16, 16]}>
+        {jobs.map((job: any) => (
+          <Col key={job._id} span={8}>
+            <Card
+              title={job.title}
+              bordered={true}
+              extra={<i className="ri-verified-badge-line"></i>}
+            >
+              <p>
+                <strong>Posted on:</strong>{" "}
+                {moment(job.createdAt).format("DD/MM/YYYY HH:mm:ss")}
+              </p>
+              <p>
+                <strong>Job Type</strong>: {formatJobTypeString(job.jobType)}
+              </p>
+              <p>
+                <strong>Location</strong>: {job.location}
+              </p>
+              <p>
+                <strong>Experience</strong>: {job.experience}
+              </p>
+              <p>
+                <strong>Work Mode</strong>:{" "}
+                {job.workMode.charAt(0).toUpperCase() + job.workMode.slice(1)}
+              </p>
+              <p>
+                <strong>Description</strong>: {job.description}
+              </p>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+    </>
   )
 }

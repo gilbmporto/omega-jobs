@@ -28,7 +28,39 @@ export async function GET(req: NextRequest) {
       { status: 200 }
     )
   } catch (error: any) {
-    console.log(error)
-    return NextResponse.json({ message: error.message }, { status: 403 })
+    console.log("=======================")
+    console.log("This error was catched inside me.ts route:")
+    console.log(error.message)
+    console.log("=======================")
+
+    if (
+      error.message.includes("invalid algorithm") ||
+      error.message.includes("invalid token")
+    ) {
+      const response = NextResponse.json(
+        { message: "Get out of here, hacker!" },
+        { status: 403 }
+      )
+
+      response.cookies.set("token", "", { maxAge: 0 })
+
+      return response
+    } else if (
+      error.message.includes("JsonWebTokenError") ||
+      error.message.includes("TokenExpiredError")
+    ) {
+      const errorMessage = error.message.split(":")[1].trim()
+
+      const response = NextResponse.json(
+        { message: errorMessage },
+        { status: 401 }
+      )
+
+      response.cookies.set("token", "", { maxAge: 0 })
+
+      return response
+    }
+
+    return NextResponse.json({ message: error.message }, { status: 500 })
   }
 }

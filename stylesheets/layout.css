@@ -104,6 +104,21 @@
   padding-bottom: 8px;
 }
 
+.ri-edit-2-line {
+  font-size: 24px !important;
+  cursor: pointer;
+}
+
+.ri-delete-bin-line {
+  font-size: 24px !important;
+  cursor: pointer;
+}
+
+.ri-verified-badge-line {
+  font-size: 24px !important;
+  cursor: pointer;
+}
+
 .divider {
   width: 100%;
   height: 1px;

@@ -3,10 +3,11 @@ import { setCurrentUser } from "@/redux/usersSlice"
 import { ConfigProvider, message } from "antd"
 import axios from "axios"
 import { usePathname, useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import Loading from "./Loading"
 import { setIsLoading } from "@/redux/loadingsSlice"
+import capitalizeFirstLetter from "@/helpers/capitalizeError"
 
 export default function LayoutProvider({
   children,
@@ -50,37 +51,15 @@ export default function LayoutProvider({
 
   const [isSidebarExpanded, setIsSidebarExpanded] = useState<boolean>(true)
 
+  const notificationDisplayedRef = useRef(false)
+
   const pathname = usePathname()
-
-  // const [jwtExpired, setJwtExpired] = useState<boolean>(false)
-  // const notificationDisplayedRef = useRef<boolean>(false)
-
-  // useEffect(() => {
-  //   async function checkJwtStatus() {
-  //     try {
-  //       const res = await axios.get("api/jwt")
-  //       if (res.status === 200) {
-  //         setJwtExpired(false) // O JWT é válido
-  //       }
-  //     } catch (error: any) {
-  //       if (error.res && error.res.status === 401) {
-  //         setJwtExpired(true) // O JWT expirou
-  //         if (!notificationDisplayedRef.current) {
-  //           message.error(error.res.data.message)
-  //           notificationDisplayedRef.current = true
-  //         }
-  //       }
-  //     }
-  //   }
-
-  //   checkJwtStatus()
-  // }, [])
 
   const getCurrentUser = async () => {
     try {
       dispatch(setIsLoading(true))
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_REACT_APP_API_URL}api/users/me`
+        `${process.env.NEXT_PUBLIC_REACT_APP_API_URL}/api/users/me`
       )
 
       // Here we'll check if user is employee or employer
@@ -100,8 +79,20 @@ export default function LayoutProvider({
 
       dispatch(setCurrentUser(res.data.data))
     } catch (error: any) {
-      console.log(error)
-      message.error(error.response.data.message || "Something went wrong")
+      if (error.response && error.response.data.message) {
+        if (!notificationDisplayedRef.current) {
+          // Mostrar mensagem de erro
+          notificationDisplayedRef.current = true
+
+          // Tratamento de erro
+          const errorMessage = capitalizeFirstLetter(
+            error.response.data.message
+          )
+          message.error(errorMessage)
+        }
+        console.log("Going back to login page...")
+        router.push("/login")
+      }
     } finally {
       dispatch(setIsLoading(false))
     }
@@ -110,7 +101,6 @@ export default function LayoutProvider({
   useEffect(() => {
     if (pathname !== "/login" && pathname !== "/register" && !currentUser)
       getCurrentUser()
-    console.log(pathname)
   }, [pathname])
 
   const onLogout = async () => {
@@ -144,6 +134,8 @@ export default function LayoutProvider({
 
               // Alias Token
               colorBgContainer: "#f6ffed",
+              colorBorderBg: "#1f1a1a",
+              colorBorder: "#1f1a1a",
             },
           }}
         >
@@ -200,10 +192,7 @@ export default function LayoutProvider({
                     <i className="ri-logout-box-r-line" onClick={onLogout}></i>
                   </div>
                 </div>
-                <div className="body">
-                  {/* {jwtExpired && <h2>Your access expired, please login again</h2>} */}
-                  {children}
-                </div>
+                <div className="body">{children}</div>
               </div>
             )
           )}

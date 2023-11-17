@@ -40,6 +40,7 @@ export async function POST(req: NextRequest) {
       { status: 201 }
     )
   } catch (error: any) {
-    ;`${error.name}: ${error.message}`
+    console.log(`${error.name}: ${error.message}`)
+    return NextResponse.json({ message: error.message }, { status: 500 })
   }
 }

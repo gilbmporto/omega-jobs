@@ -1,18 +1,35 @@
 "use client"
 import JobPostForm from "@/components/JobPostForm"
 import PageTitle from "@/components/PageTitle"
-import { Button, Form } from "antd"
+import { setIsLoading } from "@/redux/loadingsSlice"
+import { Button, Form, message } from "antd"
+import axios from "axios"
 import { useRouter } from "next/navigation"
 import React from "react"
-import { useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 
 export default function NewJob() {
   const router = useRouter()
-  const { currentUser } = useSelector((state: any) => state.users)
+  const dispatch = useDispatch()
 
   const onFinish = async (values: any) => {
-    values.company = currentUser.name
-    console.log(values)
+    try {
+      dispatch(setIsLoading(true))
+
+      const res = await axios.post(`http://localhost:3000/api/jobs`, values, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      message.success(res.data.message)
+
+      router.push("/jobs")
+    } catch (error: any) {
+      message.error(error.message)
+    } finally {
+      dispatch(setIsLoading(false))
+    }
   }
 
   return (

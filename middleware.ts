@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import { checkJWT } from "./helpers/checkJWT"
 
 export default async function middleware(req: NextRequest) {
   try {
@@ -9,6 +10,7 @@ export default async function middleware(req: NextRequest) {
     const token = req.cookies.get("token")?.value
 
     if (!token && !isPublicPage) {
+      console.log("Going back to login page (Back-end)")
       return NextResponse.redirect(new URL("/login", req.nextUrl))
     }
 

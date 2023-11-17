@@ -6,13 +6,20 @@ export const validateJWT = async (req: NextRequest) => {
     const token = req.cookies.get("token")?.value
 
     if (!token) {
-      return NextResponse.json({ message: "No token provided" }, { status: 401 })
+      return NextResponse.json(
+        { message: "No token provided" },
+        { status: 401 }
+      )
     }
 
     const decodedData: any = jwt.verify(token, process.env.JWT_SECRET!)
 
     return decodedData.userId
   } catch (err: any) {
-    throw new Error(err.message)
+    console.log("==========================================")
+    console.log("An error was thrown inside validateJWT.ts:")
+    console.log(`${err.name}: ${err.message}`)
+    console.log("==========================================")
+    throw new Error(`${err.name}: ${err.message}`)
   }
 }
