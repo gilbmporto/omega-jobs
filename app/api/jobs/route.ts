@@ -55,6 +55,36 @@ export async function PUT(req: NextRequest) {
 
     const reqBody = await req.json()
 
+    // Encontre o trabalho atual na base de dados
+    const actualJob = await Job.findById(reqBody._id)
+    if (!actualJob) {
+      return NextResponse.json({ message: "Job not found" }, { status: 404 })
+    }
+
+    // Defina os campos a serem comparados
+    const fieldsToCompare = [
+      "title",
+      "description",
+      "jobType",
+      "location",
+      "experience",
+      "workMode",
+      "salaryFromRange",
+      "salaryToRange",
+    ]
+
+    // Compare os dados enviados com os dados atuais
+    const isSame = fieldsToCompare.every(
+      (field) => actualJob[field].toString() === reqBody[field].toString()
+    )
+
+    if (isSame) {
+      return NextResponse.json(
+        { message: "No updates, job data is the same as before." },
+        { status: 200 }
+      )
+    }
+
     const job = await Job.findByIdAndUpdate(reqBody._id, reqBody, {
       new: true,
     })
@@ -64,7 +94,8 @@ export async function PUT(req: NextRequest) {
       { status: 200 }
     )
   } catch (error: any) {
-    console.log(error.message)
+    console.log(`${error.name}: ${error.message}`)
+
     return NextResponse.json({ message: error.message }, { status: 500 })
   }
 }

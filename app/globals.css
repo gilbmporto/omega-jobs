@@ -46,3 +46,7 @@ a {
 h1 {
   margin-bottom: 0.5rem;
 }
+
+.ant-table-row {
+  height: 60px !important; /* Altura da linha */
+}

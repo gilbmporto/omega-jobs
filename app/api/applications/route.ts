@@ -12,6 +12,23 @@ export async function POST(req: NextRequest) {
     await validateJWT(req)
 
     const reqBody = await req.json()
+    console.log(reqBody)
+
+    const filterObj: any = {}
+    filterObj["job"] = reqBody.job
+    filterObj["user"] = reqBody.user
+
+    const doesApplicationAlreadyExists = await Application.findOne(filterObj)
+
+    if (doesApplicationAlreadyExists) {
+      return NextResponse.json(
+        { message: "Application already exists" },
+        {
+          status: 400,
+        }
+      )
+    }
+
     const application = await Application.create(reqBody)
 
     return NextResponse.json(
@@ -76,23 +93,3 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ message: error.message }, { status: 403 })
   }
 }
-
-// export async function PUT(req: NextRequest) {
-//   try {
-//     await validateJWT(req)
-
-//     const reqBody = await req.json()
-
-//     const job = await Job.findByIdAndUpdate(reqBody._id, reqBody, {
-//       new: true,
-//     })
-
-//     return NextResponse.json(
-//       { message: "Job updated successfully", data: job },
-//       { status: 200 }
-//     )
-//   } catch (error: any) {
-//     console.log(error.message)
-//     return NextResponse.json({ message: error.message }, { status: 500 })
-//   }
-// }

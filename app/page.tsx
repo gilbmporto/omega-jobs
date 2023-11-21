@@ -7,12 +7,11 @@ import axios from "axios"
 import moment from "moment"
 import { useRouter } from "next/navigation"
 import React, { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 
 export default function Home() {
   const router = useRouter()
   const dispatch = useDispatch()
-  const { currentUser } = useSelector((state: any) => state.users)
   const [jobs, setJobs] = useState([])
   console.log(jobs)
 

@@ -1,7 +1,8 @@
 "use client"
+import Applications from "@/components/Applications"
 import PageTitle from "@/components/PageTitle"
 import { setIsLoading } from "@/redux/loadingsSlice"
-import { Button, Modal, Table, message } from "antd"
+import { Button, Modal, Table, Tooltip, message } from "antd"
 import axios from "axios"
 import moment from "moment"
 import { useRouter } from "next/navigation"
@@ -11,6 +12,8 @@ import { useDispatch } from "react-redux"
 export default function Jobs() {
   const router = useRouter()
   const dispatch = useDispatch()
+  const [selectedJob, setSelectedJob] = React.useState({} as any)
+  const [showApplications, setShowApplications] = React.useState(false)
   const [jobs, setJobs] = React.useState([])
   const [isModalVisible, setIsModalVisible] = React.useState(false)
   const [currentJobIdToBeDeleted, setCurrentJobIdToDelete] =
@@ -105,20 +108,33 @@ export default function Jobs() {
       title: "Actions",
       dataIndex: "actions",
       render: (text: any, record: any) => {
-        console.log(record)
         return (
-          <div className="flex gap-3">
-            <i
-              className="ri-edit-2-line"
-              onClick={() => router.push(`/jobs/edit/${record._id}`)}
-            ></i>
-            <i
-              className="ri-delete-bin-line"
-              onClick={() => {
-                setCurrentJobIdToDelete(record._id)
-                setIsModalVisible(true)
-              }}
-            ></i>
+          <div className="flex gap-2">
+            <Tooltip title="Edit">
+              <i
+                className="ri-edit-2-line"
+                onClick={() => router.push(`/jobs/edit/${record._id}`)}
+              />
+            </Tooltip>
+            <Tooltip title="Delete">
+              <i
+                className="ri-delete-bin-line"
+                onClick={() => {
+                  setCurrentJobIdToDelete(record._id)
+                  setIsModalVisible(true)
+                }}
+              />
+            </Tooltip>
+
+            <Tooltip title="Applications">
+              <i
+                className="ri-file-list-3-line"
+                onClick={() => {
+                  setSelectedJob({ ...record })
+                  setShowApplications(true)
+                }}
+              />
+            </Tooltip>
           </div>
         )
       },
@@ -161,6 +177,14 @@ export default function Jobs() {
       >
         <p>Are you sure you want to delete it?</p>
       </Modal>
+
+      {showApplications && (
+        <Applications
+          showApplications={showApplications}
+          setShowApplications={setShowApplications}
+          selectedJob={selectedJob}
+        />
+      )}
     </div>
   )
 }

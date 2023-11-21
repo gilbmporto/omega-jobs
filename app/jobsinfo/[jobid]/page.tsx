@@ -86,7 +86,7 @@ export default function JobInfo({ params }: { params: { jobid: string } }) {
         }
       )
       message.success(res.data.message)
-      router.push(`/jobsinfo/${params.jobid}`)
+      router.refresh()
     } catch (error: any) {
       message.error(error.response.data.message || "Something went wrong")
     } finally {
@@ -152,11 +152,21 @@ export default function JobInfo({ params }: { params: { jobid: string } }) {
           )}
           <Col span={24}>
             <div className="flex justify-end gap-3">
-              <Button type="primary" onClick={() => router.back()}>
+              <Button type="default" onClick={() => router.back()}>
                 Cancel
               </Button>
               <Button
                 type="default"
+                onClick={() =>
+                  router.push(
+                    `${process.env.NEXT_PUBLIC_REACT_APP_API_URL}/userinfo/${jobInfo?.user?._id}`
+                  )
+                }
+              >
+                View Company Info
+              </Button>
+              <Button
+                type="primary"
                 onClick={async () => await onApply()}
                 disabled={
                   currentUser?.userType === "employer" ||

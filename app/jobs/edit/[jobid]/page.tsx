@@ -30,6 +30,10 @@ export default function EditJob() {
         },
       })
 
+      if (res.data.message === "No updates, job data is the same as before.") {
+        return message.warning("No updates, job data is the same as before.")
+      }
+
       message.success(res.data.message)
 
       // router.push("/jobs")

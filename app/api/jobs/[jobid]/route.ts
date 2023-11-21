@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import Job from "@/models/jobModel"
 import { validateJWT } from "@/helpers/validateJWT"
 import { connectDB } from "@/config/dbConfig"
+import Application from "@/models/applicationModel"
 
 // Função de conexão com o banco de dados
 connectDB()
@@ -34,6 +35,8 @@ export async function DELETE(
 ) {
   try {
     await validateJWT(req)
+
+    await Application.deleteMany({ job: params.jobid })
 
     const job = await Job.findByIdAndDelete(params.jobid)
     if (!job) {
