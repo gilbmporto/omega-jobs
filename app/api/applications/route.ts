@@ -70,13 +70,15 @@ export async function GET(req: NextRequest) {
     }
 
     const applications = await Application.find(filterObj)
-      .populate("user")
+      .populate("user", "-password")
       .populate({
         path: "job",
         populate: {
           path: "user",
+          select: "-password",
         },
       })
+
     if (!applications) {
       return NextResponse.json(
         { message: "No applications found" },

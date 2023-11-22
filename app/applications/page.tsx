@@ -12,9 +12,7 @@ export default function Applications() {
   const router = useRouter()
   const dispatch = useDispatch()
   const [applications, setApplications] = React.useState([])
-  const [isModalVisible, setIsModalVisible] = React.useState(false)
-  const [currentApplicationToDelete, setCurrentApplicationToDelete] =
-    React.useState(null)
+  React.useState(null)
   const { currentUser } = useSelector((state: any) => state.users)
 
   const fetchApplications = async () => {
@@ -73,18 +71,12 @@ export default function Applications() {
     },
   ]
 
-  const handleOk = async () => {
-    try {
-      setIsModalVisible(false)
-      setCurrentApplicationToDelete(null)
-    } catch (error: any) {
-      console.log(`${error.name}: ${error.message}`)
-      message.error(error.message)
+  const onRowClick = (record: any) => {
+    return {
+      onClick: () => {
+        router.push(`/applications/${record._id}`)
+      },
     }
-  }
-
-  const handleCancel = () => {
-    setIsModalVisible(false)
   }
 
   return (
@@ -93,18 +85,14 @@ export default function Applications() {
         <PageTitle title="Applications" />
       </div>
       <div className="my-3">
-        <Table columns={columns} dataSource={applications} rowKey="_id" />
+        <Table
+          columns={columns}
+          dataSource={applications}
+          rowKey="_id"
+          onRow={onRowClick}
+          rowClassName="clickable-row"
+        />
       </div>
-
-      <Modal
-        title="Confirm Delete"
-        okText="Delete"
-        open={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        <p>Are you sure you want to delete it?</p>
-      </Modal>
     </div>
   )
 }

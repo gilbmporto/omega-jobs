@@ -32,8 +32,6 @@ export default function UserInfo({ params }: { params: { userid: string } }) {
     fetchUserInfo()
   }, [])
 
-  console.log(userInfo)
-
   return (
     userInfo && (
       <div>

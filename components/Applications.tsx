@@ -3,6 +3,7 @@ import { setIsLoading } from "@/redux/loadingsSlice"
 import { Modal, Select, Table, Tooltip, message } from "antd"
 import axios from "axios"
 import moment from "moment"
+import { useRouter } from "next/navigation"
 import React from "react"
 import { useDispatch } from "react-redux"
 
@@ -16,6 +17,7 @@ export default function Applications({
   selectedJob: any
 }) {
   const dispatch = useDispatch()
+  const router = useRouter()
   const [applications, setApplications] = React.useState([])
 
   const fetchApplications = async () => {
@@ -101,15 +103,19 @@ export default function Applications({
     },
     {
       title: "Actions",
-      dataIndex: "actions",
-      render: (text: any, record: any) => {
+      dataIndex: "_id",
+      render: (id: any, record: any) => {
         return (
           <div className="flex items-center justify-center gap-2">
-            <Tooltip title="Edit">
-              <i className="ri-edit-2-line" />
-            </Tooltip>
-            <Tooltip title="Delete">
-              <i className="ri-delete-bin-line" />
+            <Tooltip title="Check Applicant">
+              <i
+                className="ri-eye-line"
+                onClick={() =>
+                  router.push(
+                    `${process.env.NEXT_PUBLIC_REACT_APP_API_URL}/userinfo/${record.user._id}`
+                  )
+                }
+              />
             </Tooltip>
           </div>
         )
