@@ -11,6 +11,19 @@ export async function PUT(req: NextRequest) {
 
     const reqBody = await req.json()
 
+    const isSameData = await User.findOne(reqBody)
+    if (isSameData) {
+      return NextResponse.json(
+        {
+          message: "Your data is exactly the same as before!",
+          data: isSameData,
+        },
+        {
+          status: 200,
+        }
+      )
+    }
+
     const updateUser = await User.findByIdAndUpdate(reqBody._id, reqBody, {
       new: true,
     }).select("-password")

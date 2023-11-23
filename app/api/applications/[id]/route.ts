@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server"
 import { validateJWT } from "@/helpers/validateJWT"
 import { connectDB } from "@/config/dbConfig"
 import Application from "@/models/applicationModel"
+import { sendEmail } from "@/helpers/sendEmail"
+import moment from "moment"
 
 // Função de conexão com o banco de dados
 connectDB()
@@ -16,11 +18,12 @@ export async function GET(
     console.log(params.id)
 
     const application = await Application.findById(params.id)
-      .populate("user")
+      .populate("user", "-password")
       .populate({
         path: "job",
         populate: {
           path: "user",
+          select: "-password",
         },
       })
 
@@ -53,6 +56,31 @@ export async function PUT(
         runValidators: true,
       }
     )
+      .populate("user", "-password")
+      .populate({
+        path: "job",
+        populate: {
+          path: "user",
+          select: "-password",
+        },
+      })
+
+    await sendEmail({
+      to: updatedApplication.user.email,
+      subject: "Your application status has been updated",
+      text: `Your application status has been updated to ${updatedApplication.status}`,
+      html: `<div>
+      <p>Your application status has been updated to ${
+        updatedApplication.status
+      }</p>
+      <p>Company: ${updatedApplication.job.user.name}</p>
+      <p>Job: ${updatedApplication.job.title}</p>
+      <p>Applied On: ${moment(updatedApplication.createdAt).format(
+        "DD/MM/YYYY"
+      )}</p>
+      <p>Thank you for using OmegaJobs!</p>
+      </div>`,
+    })
 
     return NextResponse.json(
       {
