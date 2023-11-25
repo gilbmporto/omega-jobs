@@ -4,6 +4,7 @@
   gap: 10px;
   height: 100vh;
   width: 100%;
+  overflow-x: auto;
 }
 
 .body {
@@ -155,4 +156,9 @@
 
 .custom-table-header th {
   font-size: 17px !important;
+}
+
+.custom-size {
+  width: 100% !important; /* Adjust width as needed, or remove if you want auto-width */
+  height: 32px !important; /* Standard height for antd Input, adjust as needed */
 }

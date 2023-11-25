@@ -6,7 +6,7 @@ export default function EmployerForm() {
   return (
     <>
       <Row gutter={[16, 16]}>
-        <Col span={8}>
+        <Col span={8} xs={24} sm={12} md={8} lg={8} xl={8}>
           <Form.Item
             label="Name"
             name="name"
@@ -16,7 +16,7 @@ export default function EmployerForm() {
           </Form.Item>
         </Col>
 
-        <Col span={8}>
+        <Col span={8} xs={24} sm={12} md={8} lg={8} xl={8}>
           <Form.Item
             label="Email"
             name="email"
@@ -26,13 +26,13 @@ export default function EmployerForm() {
           </Form.Item>
         </Col>
 
-        <Col span={8}>
+        <Col span={8} xs={24} sm={12} md={8} lg={8} xl={8}>
           <Form.Item label="Phone" name="phone">
             <Input type="number" name="phone" id="phone" />
           </Form.Item>
         </Col>
 
-        <Col span={8}>
+        <Col span={8} xs={24} sm={12} md={8} lg={8} xl={8}>
           <Form.Item label="Est Year" name="establishmentYear">
             <Input
               type="number"
@@ -42,13 +42,13 @@ export default function EmployerForm() {
           </Form.Item>
         </Col>
 
-        <Col span={8}>
+        <Col span={8} xs={24} sm={12} md={8} lg={8} xl={8}>
           <Form.Item label="Website" name="website">
             <Input type="text" name="website" id="website" />
           </Form.Item>
         </Col>
 
-        <Col span={8}>
+        <Col span={8} xs={24} sm={12} md={8} lg={8} xl={8}>
           <Form.Item label="No of Employees" name="companySize">
             <Input type="number" name="companySize" id="companySize" />
           </Form.Item>

@@ -1,4 +1,5 @@
 "use client"
+import Filters from "@/components/Filters"
 import PageTitle from "@/components/PageTitle"
 import formatJobTypeString from "@/helpers/formatString"
 import { setIsLoading } from "@/redux/loadingsSlice"
@@ -13,14 +14,18 @@ export default function Home() {
   const router = useRouter()
   const dispatch = useDispatch()
   const [jobs, setJobs] = useState([])
-  console.log(jobs)
+  const [filters, setFilters] = useState({
+    searchText: "",
+    location: "",
+  })
 
   const fetchJobs = async () => {
     try {
       dispatch(setIsLoading(true))
 
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_REACT_APP_API_URL}/api/jobs/all`
+        `${process.env.NEXT_PUBLIC_REACT_APP_API_URL}/api/jobs/all`,
+        { params: filters }
       )
       setJobs(res.data.data)
     } catch (error: any) {
@@ -34,16 +39,24 @@ export default function Home() {
     fetchJobs()
   }, [])
 
-  console.log(jobs)
-
   return (
     <>
       <PageTitle title="Home" />
       <h2>Opportunities</h2>
       <br />
+      <Filters filters={filters} setFilters={setFilters} getData={fetchJobs} />
       <Row gutter={[16, 16]}>
         {jobs.map((job: any) => (
-          <Col key={job._id} span={8} className="py-3">
+          <Col
+            key={job._id}
+            span={8}
+            xs={24}
+            sm={24}
+            md={20}
+            lg={12}
+            xl={8}
+            className="py-3"
+          >
             <Card
               title={job.title}
               bordered={true}

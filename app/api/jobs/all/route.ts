@@ -11,7 +11,21 @@ export async function GET(req: NextRequest) {
   try {
     await validateJWT(req)
 
-    const jobs = await Job.find().populate("user")
+    const { searchParams } = new URL(req.url)
+
+    const searchText = searchParams.get("searchText")
+    const location = searchParams.get("location")
+
+    const filtersObject: any = {}
+
+    if (searchText) {
+      filtersObject.title = { $regex: searchText, $options: "i" }
+    }
+    if (location) {
+      filtersObject.location = { $regex: location, $options: "i" }
+    }
+
+    const jobs = await Job.find(filtersObject).populate("user", "-password")
     if (!jobs) {
       return NextResponse.json({ message: "Jobs not found" }, { status: 404 })
     }

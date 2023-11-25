@@ -35,7 +35,7 @@ export default function JobPostForm() {
         </Form.Item>
       </Col>
 
-      <Col span={8}>
+      <Col span={8} xs={24} sm={12} md={8} lg={8} xl={8}>
         <Form.Item
           label="Job Type"
           name="jobType"
@@ -54,7 +54,7 @@ export default function JobPostForm() {
         </Form.Item>
       </Col>
 
-      <Col span={8}>
+      <Col span={8} xs={24} sm={12} md={8} lg={8} xl={8}>
         <Form.Item
           label="Job Location"
           name="location"
@@ -65,11 +65,29 @@ export default function JobPostForm() {
             },
           ]}
         >
-          <Input type="text" />
+          <Select
+            id="location"
+            style={{
+              height: "44px",
+              width: "100%",
+              overflowY: "auto",
+            }}
+            defaultValue={"USA"}
+          >
+            <Select.Option value="India">India</Select.Option>
+            <Select.Option value="USA">USA</Select.Option>
+            <Select.Option value="UK">UK</Select.Option>
+            <Select.Option value="Canada">Canada</Select.Option>
+            <Select.Option value="Bra">Brazil</Select.Option>
+            <Select.Option value="Spain">Spain</Select.Option>
+            <Select.Option value="Portugal">Portugal</Select.Option>
+            <Select.Option value="France">France</Select.Option>
+            <Select.Option value="Germany">Germany</Select.Option>
+          </Select>
         </Form.Item>
       </Col>
 
-      <Col span={8}>
+      <Col span={8} xs={24} sm={12} md={8} lg={8} xl={8}>
         <Form.Item
           label="Experience"
           name="experience"
@@ -84,7 +102,7 @@ export default function JobPostForm() {
         </Form.Item>
       </Col>
 
-      <Col span={8}>
+      <Col span={8} xs={24} sm={12} md={8} lg={8} xl={8}>
         <Form.Item
           label="Work Mode"
           name="workMode"
@@ -102,7 +120,7 @@ export default function JobPostForm() {
         </Form.Item>
       </Col>
 
-      <Col span={8}>
+      <Col span={8} xs={24} sm={12} md={8} lg={8} xl={8}>
         <Form.Item
           label="Salary From Range"
           name="salaryFromRange"
@@ -117,7 +135,7 @@ export default function JobPostForm() {
         </Form.Item>
       </Col>
 
-      <Col span={8}>
+      <Col span={8} xs={24} sm={12} md={8} lg={8} xl={8}>
         <Form.Item
           label="Salary To Range"
           name="salaryToRange"

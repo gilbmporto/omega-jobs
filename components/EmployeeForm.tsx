@@ -1,13 +1,12 @@
 "use client"
 import React from "react"
-import { Row, Form, Input, Col, Button, Space } from "antd"
-import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons"
+import { Row, Form, Input, Col, Button } from "antd"
 
 export default function EmployeeForm() {
   return (
     <>
       <Row gutter={[16, 16]}>
-        <Col span={8}>
+        <Col span={8} xs={24} sm={12} md={8} lg={8} xl={8}>
           <Form.Item
             label="Name"
             name="name"
@@ -16,7 +15,7 @@ export default function EmployeeForm() {
             <Input type="text" name="name" id="name" />
           </Form.Item>
         </Col>
-        <Col span={8}>
+        <Col span={8} xs={24} sm={12} md={8} lg={8} xl={8}>
           <Form.Item
             label="Email"
             name="email"
@@ -25,7 +24,7 @@ export default function EmployeeForm() {
             <Input type="email" name="email" id="email" />
           </Form.Item>
         </Col>
-        <Col span={8}>
+        <Col span={8} xs={24} sm={12} md={8} lg={8} xl={8}>
           <Form.Item label="Phone" name="phone">
             <Input type="tel" name="phone" id="phone" />
           </Form.Item>
@@ -50,7 +49,7 @@ export default function EmployeeForm() {
               {fields.map(({ key, name, ...restField }) => {
                 return (
                   <Row key={key} gutter={[16, 16]} align="bottom">
-                    <Col span={8}>
+                    <Col span={8} xs={24} sm={24} md={8} lg={8} xl={8}>
                       <Form.Item
                         {...restField}
                         name={[name, "qualification"]}
@@ -60,7 +59,7 @@ export default function EmployeeForm() {
                         <Input type="text" />
                       </Form.Item>
                     </Col>
-                    <Col span={8}>
+                    <Col span={8} xs={24} sm={24} md={8} lg={8} xl={8}>
                       <Form.Item
                         {...restField}
                         name={[name, "institution"]}
@@ -70,7 +69,7 @@ export default function EmployeeForm() {
                         <Input type="text" />
                       </Form.Item>
                     </Col>
-                    <Col span={5}>
+                    <Col span={5} xs={24} sm={24} md={5} lg={5} xl={5}>
                       <Form.Item
                         {...restField}
                         name={[name, "percentage"]}
@@ -80,10 +79,28 @@ export default function EmployeeForm() {
                         <Input type="number" />
                       </Form.Item>
                     </Col>
-                    <i
-                      className="ri-close-circle-line"
-                      onClick={() => remove(name)}
-                    ></i>
+                    <Col
+                      span={1}
+                      xs={24}
+                      sm={24}
+                      md={1}
+                      lg={1}
+                      xl={1}
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "100%",
+                      }}
+                    >
+                      <i
+                        className="ri-close-circle-line"
+                        onClick={() => remove(name)}
+                        style={{
+                          textAlign: "center",
+                        }}
+                      ></i>
+                    </Col>
                   </Row>
                 )
               })}
@@ -106,7 +123,7 @@ export default function EmployeeForm() {
               {fields.map(({ key, name, ...restField }) => {
                 return (
                   <Row key={key} gutter={[16, 16]} align="bottom">
-                    <Col span={8}>
+                    <Col span={8} xs={24} sm={11} md={8} lg={8} xl={8}>
                       <Form.Item
                         {...restField}
                         name={[name, "technology"]}
@@ -116,7 +133,7 @@ export default function EmployeeForm() {
                         <Input type="text" />
                       </Form.Item>
                     </Col>
-                    <Col span={8}>
+                    <Col span={8} xs={24} sm={11} md={8} lg={5} xl={5}>
                       <Form.Item
                         {...restField}
                         name={[name, "rating"]}
@@ -126,10 +143,28 @@ export default function EmployeeForm() {
                         <Input type="text" />
                       </Form.Item>
                     </Col>
-                    <i
-                      className="ri-close-circle-line"
-                      onClick={() => remove(name)}
-                    ></i>
+                    <Col
+                      span={1}
+                      xs={24}
+                      sm={1}
+                      md={1}
+                      lg={1}
+                      xl={1}
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "end",
+                        height: "100%",
+                      }}
+                    >
+                      <i
+                        className="ri-close-circle-line"
+                        onClick={() => remove(name)}
+                        style={{
+                          textAlign: "center",
+                        }}
+                      ></i>
+                    </Col>
                   </Row>
                 )
               })}
@@ -152,7 +187,7 @@ export default function EmployeeForm() {
               {fields.map(({ key, name, ...restField }) => {
                 return (
                   <Row key={key} gutter={[16, 16]} align="bottom">
-                    <Col span={8}>
+                    <Col span={8} xs={24} sm={24} md={8} lg={8} xl={8}>
                       <Form.Item
                         {...restField}
                         name={[name, "company"]}
@@ -162,7 +197,7 @@ export default function EmployeeForm() {
                         <Input type="text" />
                       </Form.Item>
                     </Col>
-                    <Col span={8}>
+                    <Col span={8} xs={24} sm={24} md={8} lg={8} xl={8}>
                       <Form.Item
                         {...restField}
                         name={[name, "role"]}
@@ -172,7 +207,7 @@ export default function EmployeeForm() {
                         <Input type="text" />
                       </Form.Item>
                     </Col>
-                    <Col span={5}>
+                    <Col span={5} xs={24} sm={24} md={5} lg={5} xl={5}>
                       <Form.Item
                         {...restField}
                         name={[name, "period"]}
@@ -182,10 +217,28 @@ export default function EmployeeForm() {
                         <Input type="text" />
                       </Form.Item>
                     </Col>
-                    <i
-                      className="ri-close-circle-line"
-                      onClick={() => remove(name)}
-                    ></i>
+                    <Col
+                      span={1}
+                      xs={24}
+                      sm={24}
+                      md={1}
+                      lg={1}
+                      xl={1}
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "100%",
+                      }}
+                    >
+                      <i
+                        className="ri-close-circle-line"
+                        onClick={() => remove(name)}
+                        style={{
+                          textAlign: "center",
+                        }}
+                      ></i>
+                    </Col>
                   </Row>
                 )
               })}
