@@ -14,7 +14,10 @@ function Login() {
   const onFinish = async (values: any) => {
     try {
       dispatch(setIsLoading(true))
-      const res = await axios.post("api/users/login", values)
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_REACT_APP_API_URL}/api/users/login`,
+        values
+      )
       message.success(res.data.message)
       router.push("/")
     } catch (err: any) {

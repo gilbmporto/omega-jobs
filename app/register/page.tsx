@@ -16,7 +16,10 @@ export default function Register() {
     try {
       dispatch(setIsLoading(true))
 
-      const res = await axios.post("api/users/register", values)
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_REACT_APP_API_URL}/api/users/register`,
+        values
+      )
       message.success(res.data.message)
       router.push("/login")
       try {
