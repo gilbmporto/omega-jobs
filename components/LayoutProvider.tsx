@@ -151,7 +151,17 @@ export default function LayoutProvider({
                   className={`sidebar ${!isSidebarExpanded && "items-center"}`}
                 >
                   <div className="logo">
-                    {isSidebarExpanded && <h1>OmegaJobs</h1>}
+                    {isSidebarExpanded && (
+                      <h1
+                        onClick={() =>
+                          router.push(
+                            `${process.env.NEXT_PUBLIC_REACT_APP_API_URL}`
+                          )
+                        }
+                      >
+                        OmegaJobs
+                      </h1>
+                    )}
                     {!isSidebarExpanded && (
                       <i
                         className="ri-menu-3-line"

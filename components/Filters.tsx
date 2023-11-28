@@ -29,6 +29,7 @@ export default function Filters({
           title="Search Jobs"
           type="text"
           value={filters?.searchText}
+          placeholder="Search jobs..."
           onChange={(e) =>
             setFilters({ ...filters, searchText: e.target.value })
           }
