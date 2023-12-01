@@ -2,6 +2,8 @@ import bcrypt from "bcryptjs"
 import { NextRequest, NextResponse } from "next/server"
 import { connectDB } from "@/config/dbConfig"
 import User from "@/models/userModel"
+import axios from "axios"
+import checkEmail from "@/helpers/checkEmail"
 
 // Função de conexão com o banco de dados
 connectDB()
@@ -16,6 +18,15 @@ export async function POST(req: NextRequest) {
     if (existingUser) {
       return NextResponse.json(
         { message: "User already exists" },
+        { status: 403 }
+      )
+    }
+
+    const checkedEmail = await checkEmail(email)
+
+    if (checkedEmail?.data?.status === "invalid") {
+      return NextResponse.json(
+        { message: "This email is not valid" },
         { status: 403 }
       )
     }
